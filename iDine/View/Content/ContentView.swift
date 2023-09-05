@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    let menu = Bundle.main.decode([MenuSection].self, from: "menu.json")
+//    let menu = Bundle.main.decode([MenuSection].self, from: "menu.json")
+    
+    @State var isLoading = false
+    @State var menu: [MenuSection] = []
     
     var body: some View {
         NavigationStack {
@@ -26,8 +29,38 @@ struct ContentView: View {
                 }
             } //: List
             .listStyle(.grouped)
+            .overlay {
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                }
+            }
             .navigationTitle("Menu")
         } //: NavigationStack
+        .task {
+            getMenu()
+        }
+    }
+    
+    func getMenu() {
+        self.isLoading = true
+        APIMenuService(environment: ApiEnvironment.production).getMenu { (menu, error) in
+            defer {
+                self.isLoading = false
+            }
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let menu = menu else {
+                print("menu guard error")
+                return
+            }
+            
+            self.menu = menu
+        }
     }
 }
 
