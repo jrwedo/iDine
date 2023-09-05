@@ -13,10 +13,12 @@ struct ItemDetail: View {
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var order: Order
+    @ObservedObject var menuVM: MenuViewModel
     
     @State private var orderingCount = 1
     @State private var showingOrderCompleteAlert = false
-    @State private var isFavorite = false
+    @State var isFavorite = false
+    
     
     var body: some View {
         VStack {
@@ -69,43 +71,25 @@ struct ItemDetail: View {
         .toolbar {
             Button(action: {
                 isFavorite.toggle()
-                changeFavoriteStatusRealm()
+                menuVM.changeFavoriteStatusRealm(name: item.name, isFavorite: self.isFavorite)
             }, label: {
                 Image(systemName: isFavorite ? "star.fill": "star")
                     .tint(.yellow)
             })
         }
         .task {
-            getFavoriteStatusRealm()
+            self.isFavorite = menuVM.getFavoriteStatusRealm(name: item.name)
         }
         
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    func getFavoriteStatusRealm() {
-        let fetchResult = realmManager.getObject(type: RealmFavoriteMenu.self, name: item.name)
-        guard let menu = fetchResult?.first as? RealmFavoriteMenu else {
-            print("error in guard")
-            return
-        }
-        
-        self.isFavorite = menu.isFavorite
-    }
-    
-    func changeFavoriteStatusRealm() {
-        let menu = RealmFavoriteMenu()
-        menu.isFavorite = isFavorite
-        menu.name = item.name
-        realmManager.updateObject(obj: menu)
-    }
-    
-    
 }
 
 #Preview {
     NavigationStack {
-        ItemDetail(item: MenuItem.example)
+        ItemDetail(item: MenuItem.example, menuVM: MenuViewModel())
             .environmentObject(Order())
     }
 }

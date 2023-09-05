@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject var menuVM = MenuViewModel()
+    
     var body: some View {
         TabView {
-            ContentView()
+            ContentView(menuVM: self.menuVM)
                 .tabItem {
                     Label("Menu", systemImage: "list.dash")
                 }
@@ -18,7 +20,7 @@ struct MainView: View {
                 .tabItem {
                     Label("Order", systemImage: "square.and.pencil")
                 }
-            FavoriteView()
+            FavoriteView(menuVM: self.menuVM)
                 .tabItem {
                     Label("Favorite", systemImage: "star")
                 }

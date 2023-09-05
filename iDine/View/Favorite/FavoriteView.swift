@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct FavoriteView: View {
-    let realmManager = RealmLocalDBManager()
-    @State var menu: [RealmFavoriteMenu] = []
+    @ObservedObject var menuVM: MenuViewModel
+    
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(menu) { item in
+                ForEach(menuVM.favoriteMenu) { item in
                     Text(item.name)
                 }
             }
@@ -22,15 +22,12 @@ struct FavoriteView: View {
             .navigationTitle("Favorite")
         }
         .task {
-            getFavoriteMenuRealm()
+            menuVM.getFavoriteMenuRealm()
         }
     }
     
-    func getFavoriteMenuRealm() {
-        self.menu = realmManager.getFavoriteMenu()
-    }
 }
 
 #Preview {
-    FavoriteView()
+    FavoriteView(menuVM: MenuViewModel())
 }

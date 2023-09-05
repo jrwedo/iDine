@@ -35,6 +35,7 @@
 		B348E45B2AA6CB81008C0A57 /* RealmLocalDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B348E45A2AA6CB81008C0A57 /* RealmLocalDBManager.swift */; };
 		B348E45D2AA6CE45008C0A57 /* RealmFavoriteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B348E45C2AA6CE45008C0A57 /* RealmFavoriteMenu.swift */; };
 		B348E4602AA6E306008C0A57 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B348E45F2AA6E306008C0A57 /* FavoriteView.swift */; };
+		B348E4632AA6EB24008C0A57 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B348E4622AA6EB24008C0A57 /* MenuViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		B348E45A2AA6CB81008C0A57 /* RealmLocalDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLocalDBManager.swift; sourceTree = "<group>"; };
 		B348E45C2AA6CE45008C0A57 /* RealmFavoriteMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmFavoriteMenu.swift; sourceTree = "<group>"; };
 		B348E45F2AA6E306008C0A57 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		B348E4622AA6EB24008C0A57 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				B348E40C2AA5590A008C0A57 /* Utility */,
 				B348E4072AA55848008C0A57 /* Data */,
 				B348E4062AA55809008C0A57 /* Model */,
+				B348E4612AA6EB0C008C0A57 /* ViewModel */,
 				B348E4052AA55801008C0A57 /* View */,
 				B348E3DF2AA55779008C0A57 /* Assets.xcassets */,
 				B348E3E12AA55779008C0A57 /* Preview Content */,
@@ -291,6 +294,14 @@
 			path = Favorite;
 			sourceTree = "<group>";
 		};
+		B348E4612AA6EB0C008C0A57 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B348E4622AA6EB24008C0A57 /* MenuViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -434,6 +445,7 @@
 				B348E41C2AA56280008C0A57 /* MainView.swift in Sources */,
 				B348E43B2AA6B1C2008C0A57 /* Order.swift in Sources */,
 				B348E45D2AA6CE45008C0A57 /* RealmFavoriteMenu.swift in Sources */,
+				B348E4632AA6EB24008C0A57 /* MenuViewModel.swift in Sources */,
 				B348E44D2AA6BD39008C0A57 /* ApiRoute.swift in Sources */,
 				B348E44B2AA6BCFA008C0A57 /* ApiEnvironment.swift in Sources */,
 				B348E4202AA5643F008C0A57 /* CheckoutView.swift in Sources */,

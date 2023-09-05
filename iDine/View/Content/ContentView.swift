@@ -9,19 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
 //    let menu = Bundle.main.decode([MenuSection].self, from: "menu.json")
-    let realmManager = RealmLocalDBManager()
-    
-    @State var isLoading = false
-    @State var menu: [MenuSection] = []
+    @ObservedObject var menuVM: MenuViewModel
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(menu) { section in
+                ForEach(menuVM.menu) { section in
                     Section(section.name) {
                         ForEach(section.items) { item in
                             NavigationLink(destination: {
-                                ItemDetail(item: item)
+                                ItemDetail(item: item, menuVM: self.menuVM)
                             }, label: {
                                 ItemRow(item: item)
                             })
@@ -31,7 +28,7 @@ struct ContentView: View {
             } //: List
             .listStyle(.grouped)
             .overlay {
-                if isLoading {
+                if menuVM.isLoadingMenu {
                     ProgressView()
                         .progressViewStyle(.circular)
                 }
@@ -39,45 +36,12 @@ struct ContentView: View {
             .navigationTitle("Menu")
         } //: NavigationStack
         .task {
-            getMenu()
+            menuVM.getMenu()
         }
     }
-    
-    func getMenu() {
-        self.isLoading = true
-        APIMenuService(environment: ApiEnvironment.production).getMenu { (menu, error) in
-            defer {
-                self.isLoading = false
-            }
-            
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            guard let menu = menu else {
-                print("menu guard error")
-                return
-            }
-            
-            self.menu = menu
-//            initRealmData()
-        }
-    }
-    
-//    func initRealmData() {
-//        for section in menu {
-//            for item in section.items {
-//                let favoriteMenu = RealmFavoriteMenu()
-//                favoriteMenu.name = item.name
-//                favoriteMenu.isFavorite = false
-//                realmManager.saveObject(obj: favoriteMenu)
-//            }
-//        }
-//    }
 }
 
 #Preview {
-    ContentView()
+    ContentView(menuVM: MenuViewModel())
         .environmentObject(Order())
 }
