@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 //    let menu = Bundle.main.decode([MenuSection].self, from: "menu.json")
+    let realmManager = RealmLocalDBManager()
     
     @State var isLoading = false
     @State var menu: [MenuSection] = []
@@ -60,8 +61,20 @@ struct ContentView: View {
             }
             
             self.menu = menu
+//            initRealmData()
         }
     }
+    
+//    func initRealmData() {
+//        for section in menu {
+//            for item in section.items {
+//                let favoriteMenu = RealmFavoriteMenu()
+//                favoriteMenu.name = item.name
+//                favoriteMenu.isFavorite = false
+//                realmManager.saveObject(obj: favoriteMenu)
+//            }
+//        }
+//    }
 }
 
 #Preview {

@@ -9,12 +9,14 @@ import SwiftUI
 
 struct ItemDetail: View {
     var item: MenuItem
+    let realmManager = RealmLocalDBManager()
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var order: Order
     
     @State private var orderingCount = 1
     @State private var showingOrderCompleteAlert = false
+    @State private var isFavorite = false
     
     var body: some View {
         VStack {
@@ -64,9 +66,38 @@ struct ItemDetail: View {
                 self.dismiss()
             }
         })
+        .toolbar {
+            Button(action: {
+                isFavorite.toggle()
+                changeFavoriteStatusRealm()
+            }, label: {
+                Image(systemName: isFavorite ? "star.fill": "star")
+                    .tint(.yellow)
+            })
+        }
+        .task {
+            getFavoriteStatusRealm()
+        }
         
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func getFavoriteStatusRealm() {
+        let fetchResult = realmManager.getObject(type: RealmFavoriteMenu.self, name: item.name)
+        guard let menu = fetchResult?.first as? RealmFavoriteMenu else {
+            print("error in guard")
+            return
+        }
+        
+        self.isFavorite = menu.isFavorite
+    }
+    
+    func changeFavoriteStatusRealm() {
+        let menu = RealmFavoriteMenu()
+        menu.isFavorite = isFavorite
+        menu.name = item.name
+        realmManager.updateObject(obj: menu)
     }
     
     
